@@ -13,13 +13,13 @@ namespace Project1
         /* Retrieves saved data from a given file*/
         private static List<Team>? companyData(string path)
         {
-            bool fileCreated = false;
 
             if (!File.Exists(path))
-                fileCreated = createDataFile();
-
-            if (!fileCreated)
-                return null;
+            {
+                bool fileCreated = createDataFile();
+                if (!fileCreated)
+                    return null;
+            }
 
             try
             {
@@ -90,7 +90,7 @@ namespace Project1
             return false;
         }
 
-        public static void updateSystem(List<Team> teamList)
+        private static void updateSystem(List<Team> teamList)
         {
             foreach (var team in teamList)
             {
@@ -101,7 +101,7 @@ namespace Project1
             }
         }
 
-        public static void saveSystem(List<Team> teamList)
+        private static void saveSystem(List<Team> teamList)
         {
             string jsonString = JsonSerializer.Serialize(teamList);
             try
@@ -139,7 +139,7 @@ namespace Project1
                     }
                 }
 
-                Console.WriteLine("ITCompany is composed of " + teamList.Count + " teams and " + programmerCount + " programmers.");
+                Console.WriteLine("ITCompany\nITCompany is composed of " + teamList.Count + " teams and " + programmerCount + " programmers.");
 
                 foreach (var team in teamList)
                 {
@@ -147,7 +147,7 @@ namespace Project1
                     foreach (var programmer in team.memberList)
                     {
 
-                        // Calculate total pay per programmer depending on team type
+                       // Calculate total pay per programmer depending on team type
                         double totalPay = 0;
                         if (team.teamType == Team.type.FULL_PAID)
                             totalPay = programmer.daysInCharge * programmer.activity.payRate;

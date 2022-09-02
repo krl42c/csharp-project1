@@ -23,7 +23,7 @@ namespace Project1
         public int daysInCharge;
 
         [JsonInclude]
-        public Activity? activity { get; set; } // Nullable in case a programmer isn't currently assigned an activity
+        public Activity activity { get; set; } 
 
         public void loadIncrement()
         {
