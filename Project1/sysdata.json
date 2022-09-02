@@ -1,0 +1,45 @@
+[
+    {
+        "memberList": [{
+                "daysInCharge": 0,
+                "firstName": "Karol",
+                "lastName": "Ciechlecki",
+                "activity": {
+                    "description": "Debug",
+                    "duration": 5
+                }
+            },
+            {
+                "daysInCharge": 0,
+                "firstName": "Javier",
+                "lastName": "Gonzalez",
+                "activity": {
+                    "description": "Debug",
+                    "duration": 5
+                }
+            }
+        ]
+    },
+    {
+        "memberList": [
+            {
+                "daysInCharge": 0,
+                "firstName": "Juan",
+                "lastName": "Rodriguez",
+                "activity": {
+                    "description": "Debug",
+                    "duration": 5
+                }
+            },
+            {
+                "daysInCharge": 0,
+                "firstName": "Raul",
+                "lastName": "Crespo",
+                "activity": {
+                    "description": "Debug",
+                    "duration": 5
+                }
+            }
+        ]
+    }
+]
