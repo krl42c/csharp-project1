@@ -10,7 +10,7 @@ namespace Project1
     public class Team
     {
         [JsonInclude]
-        public int id;
+        public int id { get; }
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public enum type

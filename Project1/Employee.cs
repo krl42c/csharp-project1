@@ -7,10 +7,10 @@ namespace Project1
     public abstract class Employee
     {
         [JsonInclude]
-        public string firstName { get; set; }
+        public string firstName { get; }
 
         [JsonInclude]
-        public string lastName { get; set; }
+        public string lastName { get; }
 
         protected Employee(string firstName, string lastName)
         {

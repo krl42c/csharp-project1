@@ -16,10 +16,10 @@ namespace Project1
         }
 
         [JsonInclude]
-        public string description { get; set; }
+        public string description { get; }
 
         [JsonInclude]
-        public int duration { get; set; }
+        public int duration { get; }
 
         [JsonInclude]
         public DateTime startDate;
@@ -30,7 +30,7 @@ namespace Project1
         // I've decided to keep the pay tied to an activity.
         // 15.0 is our default payrate.
         [JsonInclude]
-        public double payRate = 15.0;
+        public double payRate { get; set; } = 15.0;
     }
 }
 

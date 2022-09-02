@@ -29,7 +29,6 @@ namespace Project1
                     jsonRawData = streamReader.ReadToEnd();
                 }
 
-
                 List<Team>? listDes = JsonSerializer.Deserialize<List<Team>>(jsonRawData);
                 return listDes;
 
@@ -176,4 +175,3 @@ namespace Project1
         }
     }
 }
-
