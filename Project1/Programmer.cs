@@ -11,12 +11,16 @@ namespace Project1
         }
 
         [JsonConstructor]
-        public Programmer(string firstName, string lastName, Activity activity) : base(firstName: firstName, lastName: lastName, activity: activity)
+        public Programmer(string firstName, string lastName, Activity activity) : base(firstName: firstName, lastName: lastName)
         {
+            this.activity = activity;
         }
 
         [JsonInclude]
         public int daysInCharge;
+
+        [JsonInclude]
+        public Activity? activity { get; set; } // Nullable in case an employee doesn't have an activity
 
         public void loadIncrement() {
             if(activity != null)

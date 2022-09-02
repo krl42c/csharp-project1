@@ -4,13 +4,7 @@ using System.Text.Json.Serialization;
 namespace Project1
 {
     public class Activity
-    {
-        public Activity(string description, int duration)
-        {
-            this.description = description;
-            this.duration = duration;
-        }
-
+    { 
         [JsonConstructor]
         public Activity(string description, DateTime startDate, DateTime endDate) {
             this.description = description;

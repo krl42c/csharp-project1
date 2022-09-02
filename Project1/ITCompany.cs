@@ -24,6 +24,7 @@ namespace Project1
                     jsonRawData = streamReader.ReadToEnd();
                 }
 
+
                 List<Team>? listDes = JsonSerializer.Deserialize<List<Team>>(jsonRawData);
                 return listDes;
 
@@ -63,12 +64,15 @@ namespace Project1
             t2.id = 2;
 
             List<Team> teamList = new List<Team> { t1, t2 };
-            string jsonString = JsonSerializer.Serialize(teamList);
+
             try {
+                string jsonString = JsonSerializer.Serialize(teamList);
                 File.WriteAllText(filePath, jsonString);
                 return true;
 	        } catch (IOException e) {
                 Console.WriteLine(e.StackTrace);
+	        } catch (JsonException j) {
+                Console.WriteLine(j.StackTrace);
 	        }
             return false;
         }
@@ -118,13 +122,15 @@ namespace Project1
                 foreach(var team in teamList) {
                     Console.WriteLine("Project team: " + team.id); // FIXME: \team.id isn't being serialized
                     foreach(var programmer in team.memberList) {
+
+                        // Calculate total pay per programmer depending on team type
                         double totalPay = 0;
-                        //Calculate total pay per programmer depending on team type
                         if (team.teamType == Team.type.FULL_PAID)
                             totalPay = programmer.daysInCharge * programmer.activity.payRate;
                         else
                             totalPay = programmer.daysInCharge * (programmer.activity.payRate / 2);
-
+                        
+                        // Print everything
                         Console.WriteLine(programmer.lastName + ","
                         + programmer.firstName + ","
                         + "in charge of "
