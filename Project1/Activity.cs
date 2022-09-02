@@ -31,7 +31,11 @@ namespace Project1
 
         [JsonInclude]
         public DateTime endDate;
-	 
+
+        // I've decided to keep the pay tied to an activity.
+        // 15.0 is just a random default payrate.
+        [JsonInclude]
+        public double payRate = 15.0;
     }
 }
 

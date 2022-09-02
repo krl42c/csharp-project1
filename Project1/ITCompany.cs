@@ -118,14 +118,22 @@ namespace Project1
                 foreach(var team in teamList) {
                     Console.WriteLine("Project team: " + team.id); // FIXME: \team.id isn't being serialized
                     foreach(var programmer in team.memberList) {
+                        double totalPay = 0;
+                        //Calculate total pay per programmer depending on team type
+                        if (team.teamType == Team.type.FULL_PAID)
+                            totalPay = programmer.daysInCharge * programmer.activity.payRate;
+                        else
+                            totalPay = programmer.daysInCharge * (programmer.activity.payRate / 2);
+
                         Console.WriteLine(programmer.lastName + ","
                         + programmer.firstName + ","
                         + "in charge of "
                         + programmer.activity.description
                         + " from " + programmer.activity.startDate.ToShortDateString()
                         + " to " + programmer.activity.endDate.Date.ToShortDateString()
-                        + " (duration " + programmer.activity.duration + ")" 
+                        + " (duration " + programmer.activity.duration + ")"
                         + ", this month: " + programmer.daysInCharge
+                        + " (total cost " + totalPay + "$)"
                         );
 		            }
                     Console.WriteLine("");
