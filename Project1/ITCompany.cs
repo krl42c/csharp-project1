@@ -143,7 +143,7 @@ namespace Project1
 
                 foreach (var team in teamList)
                 {
-                    Console.WriteLine("Project team: " + team.id); // FIXME: \team.id isn't being serialized
+                    Console.WriteLine("Project team: " + team.id); 
                     foreach (var programmer in team.memberList)
                     {
 
