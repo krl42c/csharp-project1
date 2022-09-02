@@ -13,20 +13,22 @@ namespace Project1
         public int id;
 
         [JsonConverter(typeof(JsonStringEnumConverter))]
-        public enum type { 
+        public enum type
+        {
             FULL_PAID,
             HALF_PAID
-       	}
+        }
 
         [JsonInclude]
         public type teamType;
 
         public List<Programmer> memberList { get; set; }
 
-        public Team(List<Programmer> memberList, type teamType)
+        public Team(List<Programmer> memberList, type teamType, int id)
         {
             this.memberList = memberList;
             this.teamType = teamType;
+            this.id = id;
         }
     }
 

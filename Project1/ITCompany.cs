@@ -13,8 +13,13 @@ namespace Project1
         /* Retrieves saved data from a given file*/
         private static List<Team>? companyData(string path)
         {
+            bool fileCreated = false;
+
             if (!File.Exists(path))
-               createDataFile();
+                fileCreated = createDataFile();
+
+            if (!fileCreated)
+                return null;
 
             try
             {
@@ -43,56 +48,71 @@ namespace Project1
 
         private static bool createDataFile()
         {
-            /* Boilerplate for creating a new data file */
+            /* 
+	        Boilerplate for creating a new data file.
 
-            Activity activiyTeam1 = new Activity("Debug", new DateTime(2022, 6, 10), new DateTime(2022, 10,10));
-            Activity activiyTeam2 = new Activity("Refactor", new DateTime(2022, 10,10), new DateTime(2022, 10, 18));
+	        This could've been done with json data hardcoded into a string,
+	        however i've chosen this approach to make changes in the codebase easier to deal with. 
+
+	        */
+
+            Activity activiyTeam1 = new Activity("Debug", new DateTime(2022, 6, 10), new DateTime(2022, 10, 10));
+            Activity activiyTeam2 = new Activity("Refactor", new DateTime(2022, 10, 10), new DateTime(2022, 10, 18));
 
             Team t1 = new Team(new List<Programmer>()
             {
                 new Programmer("John", "Anthony", activiyTeam1),
                 new Programmer("Zack", "Judy", activiyTeam1)
-            }, Team.type.FULL_PAID);
+            }, Team.type.FULL_PAID, 1);
 
             Team t2 = new Team(new List<Programmer>()
             {
                 new Programmer("Robert", "Martine", activiyTeam2),
                 new Programmer("Julia", "Celina", activiyTeam2)
-            }, Team.type.HALF_PAID);
-
-            t1.id = 1;
-            t2.id = 2;
+            }, Team.type.HALF_PAID, 2);
 
             List<Team> teamList = new List<Team> { t1, t2 };
 
-            try {
+            try
+            {
                 string jsonString = JsonSerializer.Serialize(teamList);
                 File.WriteAllText(filePath, jsonString);
                 return true;
-	        } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 Console.WriteLine(e.StackTrace);
-	        } catch (JsonException j) {
+            }
+            catch (JsonException j)
+            {
                 Console.WriteLine(j.StackTrace);
-	        }
+            }
             return false;
         }
 
-        public static void updateSystem(List<Team> teamList) { 
-            foreach(var team in teamList) { 
-	            foreach(var programmer in team.memberList) {
+        public static void updateSystem(List<Team> teamList)
+        {
+            foreach (var team in teamList)
+            {
+                foreach (var programmer in team.memberList)
+                {
                     programmer.loadIncrement();
-		        }
-	        }
-	    }
+                }
+            }
+        }
 
-        public static void saveSystem(List<Team> teamList) {
+        public static void saveSystem(List<Team> teamList)
+        {
             string jsonString = JsonSerializer.Serialize(teamList);
-            try {
+            try
+            {
                 File.WriteAllText(filePath, jsonString);
-	        } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 Console.WriteLine(e.StackTrace);
-	        }
-	    }
+            }
+        }
 
         public static void Main(string[] args)
         {
@@ -102,8 +122,8 @@ namespace Project1
             List<Team>? teamList = companyData(filePath);
 
             if (teamList != null)
-            {                
-		        // Update
+            {
+                // Update
                 updateSystem(teamList);
 
                 // Save
@@ -111,17 +131,21 @@ namespace Project1
 
                 // There's probably some cleaner way to do this, seems ok tho
                 int programmerCount = 0;
-                foreach(var team in teamList) { 
-                    foreach(var programmer in team.memberList) {
+                foreach (var team in teamList)
+                {
+                    foreach (var programmer in team.memberList)
+                    {
                         programmerCount++;
-		            }
-		        }
-                
+                    }
+                }
+
                 Console.WriteLine("ITCompany is composed of " + teamList.Count + " teams and " + programmerCount + " programmers.");
 
-                foreach(var team in teamList) {
+                foreach (var team in teamList)
+                {
                     Console.WriteLine("Project team: " + team.id); // FIXME: \team.id isn't being serialized
-                    foreach(var programmer in team.memberList) {
+                    foreach (var programmer in team.memberList)
+                    {
 
                         // Calculate total pay per programmer depending on team type
                         double totalPay = 0;
@@ -129,7 +153,7 @@ namespace Project1
                             totalPay = programmer.daysInCharge * programmer.activity.payRate;
                         else
                             totalPay = programmer.daysInCharge * (programmer.activity.payRate / 2);
-                        
+
                         // Print everything
                         Console.WriteLine(programmer.lastName + ","
                         + programmer.firstName + ","
@@ -141,9 +165,13 @@ namespace Project1
                         + ", this month: " + programmer.daysInCharge
                         + " (total cost " + totalPay + "$)"
                         );
-		            }
+                    }
                     Console.WriteLine("");
-		        }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Couldn't load data. Exitting.");
             }
         }
     }
