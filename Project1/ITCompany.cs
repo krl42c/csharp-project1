@@ -64,11 +64,17 @@ namespace Project1
                 new Programmer("Zack", "Judy", activiyTeam1)
             }, Team.type.FULL_PAID, 1);
 
+            foreach (var programmer in t1.memberList)
+                programmer.initializeMonth();
+
             Team t2 = new Team(new List<Programmer>()
             {
                 new Programmer("Robert", "Martine", activiyTeam2),
                 new Programmer("Julia", "Celina", activiyTeam2)
             }, Team.type.HALF_PAID, 2);
+
+            foreach (var programmer in t2.memberList)
+                programmer.initializeMonth();
 
             List<Team> teamList = new List<Team> { t1, t2 };
 
@@ -96,6 +102,7 @@ namespace Project1
                 foreach (var programmer in team.memberList)
                 {
                     programmer.loadIncrement();
+                    programmer.increaseDaysInCharge(DateTime.Now);
                 }
             }
         }
@@ -128,7 +135,6 @@ namespace Project1
                 // Save
                 saveSystem(teamList);
 
-                // There's probably some cleaner way to do this, seems ok tho
                 int programmerCount = 0;
                 foreach (var team in teamList)
                 {
@@ -142,11 +148,11 @@ namespace Project1
 
                 foreach (var team in teamList)
                 {
-                    Console.WriteLine("Project team: " + team.id); 
+                    Console.WriteLine("Project team: " + team.id);
                     foreach (var programmer in team.memberList)
                     {
 
-                       // Calculate total pay per programmer depending on team type
+                        // Calculate total pay per programmer depending on team type
                         double totalPay = 0;
                         if (team.teamType == Team.type.FULL_PAID)
                             totalPay = programmer.daysInCharge * programmer.activity.payRate;
@@ -164,6 +170,9 @@ namespace Project1
                         + ", this month: " + programmer.daysInCharge
                         + " (total cost " + totalPay + "$)"
                         );
+
+                        Console.WriteLine("====");
+                        Console.WriteLine(programmer.getDaysByMonth(DateTime.Now));
                     }
                     Console.WriteLine("");
                 }
