@@ -64,8 +64,6 @@ namespace Project1
                 new Programmer("Zack", "Judy", activiyTeam1)
             }, Team.type.FULL_PAID, 1);
 
-            foreach (var programmer in t1.memberList)
-                programmer.initializeMonth();
 
             Team t2 = new Team(new List<Programmer>()
             {
@@ -73,8 +71,6 @@ namespace Project1
                 new Programmer("Julia", "Celina", activiyTeam2)
             }, Team.type.HALF_PAID, 2);
 
-            foreach (var programmer in t2.memberList)
-                programmer.initializeMonth();
 
             List<Team> teamList = new List<Team> { t1, t2 };
 
@@ -101,7 +97,6 @@ namespace Project1
             {
                 foreach (var programmer in team.memberList)
                 {
-                    programmer.loadIncrement();
                     programmer.increaseDaysInCharge(DateTime.Now);
                 }
             }
@@ -136,15 +131,30 @@ namespace Project1
                 saveSystem(teamList);
 
                 int programmerCount = 0;
+                int totalDaysConsumed = 0; 
+
+                int daysLeft = 0; // Project days left that haven't been consumed
+                int programmerConsumedCount = 0; // Used for knowing how many programmers have consumed days 
+
+                var now = DateTime.Now; // Just for convenience
+
                 foreach (var team in teamList)
                 {
                     foreach (var programmer in team.memberList)
                     {
+                        int days = programmer.getDaysByMonth(now);
                         programmerCount++;
+                        totalDaysConsumed += days;
+                        if(days > 0)
+                            programmerConsumedCount++;
+                        daysLeft += programmer.activity.duration - days;
                     }
                 }
 
                 Console.WriteLine("ITCompany\nITCompany is composed of " + teamList.Count + " teams and " + programmerCount + " programmers.");
+                Console.WriteLine("This month, " + totalDaysConsumed + " days consumed by " + programmerConsumedCount + " programmers, and " + daysLeft + " days left.");
+
+                Console.WriteLine("\nProject teams details");
 
                 foreach (var team in teamList)
                 {
@@ -155,9 +165,9 @@ namespace Project1
                         // Calculate total pay per programmer depending on team type
                         double totalPay = 0;
                         if (team.teamType == Team.type.FULL_PAID)
-                            totalPay = programmer.daysInCharge * programmer.activity.payRate;
+                            totalPay = programmer.getDaysByMonth(now) * programmer.activity.payRate;
                         else
-                            totalPay = programmer.daysInCharge * (programmer.activity.payRate / 2);
+                            totalPay = programmer.getDaysByMonth(now) * (programmer.activity.payRate / 2);
 
                         // Print everything
                         Console.WriteLine(programmer.lastName + ","
@@ -167,12 +177,9 @@ namespace Project1
                         + " from " + programmer.activity.startDate.ToShortDateString()
                         + " to " + programmer.activity.endDate.Date.ToShortDateString()
                         + " (duration " + programmer.activity.duration + ")"
-                        + ", this month: " + programmer.daysInCharge
+                        + ", this month: " + programmer.getDaysByMonth(now)
                         + " (total cost " + totalPay + "$)"
                         );
-
-                        Console.WriteLine("====");
-                        Console.WriteLine(programmer.getDaysByMonth(DateTime.Now));
                     }
                     Console.WriteLine("");
                 }
